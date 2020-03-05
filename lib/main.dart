@@ -1,6 +1,7 @@
+import 'package:ediphot/theme/style.dart';
 import 'package:flutter/material.dart';
 
-import 'screens/homescreen.dart';
+import 'screens/home/homescreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -11,9 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: appTheme(),
       home: HomeScreen(),
     );
   }
