@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 ThemeData appTheme() {
   return ThemeData(
-    primaryColor: Color.fromARGB(255, 220, 196, 0),
+    primaryColor: Color.fromARGB(255, 255, 69, 69),
     accentColor: Colors.black,
     fontFamily: 'Caladea',
     textTheme: TextTheme(

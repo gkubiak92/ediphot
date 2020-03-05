@@ -9,7 +9,7 @@ class HomeScreen extends StatelessWidget {
         children: <Widget>[
           Container(
             width: double.infinity,
-            height: 240,
+            height: 200,
             color: Theme.of(context).primaryColor,
             child: Padding(
               padding: const EdgeInsets.symmetric(
@@ -17,12 +17,15 @@ class HomeScreen extends StatelessWidget {
                 horizontal: 20.0,
               ),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(
-                    'Ediphot',
-                    style: Theme.of(context).textTheme.subtitle1,
+                  Padding(
+                    padding: const EdgeInsets.only(top: 24.0),
+                    child: Text(
+                      'Ediphot',
+                      style: Theme.of(context).textTheme.subtitle1,
+                    ),
                   ),
                   Text(
                     'Good morning Grzegorz',
@@ -44,7 +47,8 @@ class HomeScreen extends StatelessWidget {
                         Column(
                           children: <Widget>[
                             HomeCard(
-                              icon: Icons.camera_front,
+                              image:
+                                  Image.asset('assets/undraw_take_photo.png'),
                               title: 'Take photo',
                             ),
                             SizedBox(
@@ -58,7 +62,7 @@ class HomeScreen extends StatelessWidget {
                               height: 20,
                             ),
                             HomeCard(
-                              icon: Icons.image,
+                              image: Image.asset('assets/undraw_gallery.png'),
                               title: 'Choose photo',
                             ),
                           ],
@@ -71,7 +75,7 @@ class HomeScreen extends StatelessWidget {
                         Column(
                           children: <Widget>[
                             HomeCard(
-                              icon: Icons.filter,
+                              image: Image.asset('assets/undraw_collage.png'),
                               title: 'Collage',
                             ),
                             SizedBox(
@@ -85,7 +89,7 @@ class HomeScreen extends StatelessWidget {
                               height: 20,
                             ),
                             HomeCard(
-                              icon: Icons.brush,
+                              image: Image.asset('assets/undraw_retouch.png'),
                               title: 'Magic retouch',
                             ),
                           ],

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 class HomeCard extends StatelessWidget {
   final String title;
-  final IconData icon;
+  final Widget image;
 
-  const HomeCard({Key key, this.title, this.icon}) : super(key: key);
+  const HomeCard({Key key, this.title, this.image}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,22 +15,21 @@ class HomeCard extends StatelessWidget {
           Radius.circular(10),
         ),
       ),
-      child: Container(
-        width: 140,
-        height: 160,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            Icon(
-              icon,
-              size: 80,
-              color: Theme.of(context).primaryColor,
-            ),
-            Text(
-              title,
-              style: Theme.of(context).textTheme.bodyText1,
-            ),
-          ],
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          width: 140,
+          height: 160,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              image,
+              Text(
+                title,
+                style: Theme.of(context).textTheme.bodyText1,
+              ),
+            ],
+          ),
         ),
       ),
     );
