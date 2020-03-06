@@ -30,7 +30,7 @@ class HomeCard extends StatelessWidget {
                 image,
                 Text(
                   title,
-                  style: Theme.of(context).textTheme.bodyText1,
+                  style: Theme.of(context).textTheme.body1,
                 ),
               ],
             ),

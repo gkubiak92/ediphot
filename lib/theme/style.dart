@@ -6,11 +6,11 @@ ThemeData appTheme() {
     accentColor: Colors.black,
     fontFamily: 'Caladea',
     textTheme: TextTheme(
-      headline1: TextStyle(
+      headline: TextStyle(
           fontSize: 28.0, fontWeight: FontWeight.bold, color: Colors.black87),
-      subtitle1: TextStyle(
+      subhead: TextStyle(
           fontSize: 20.0, fontWeight: FontWeight.w500, color: Colors.black87),
-      bodyText1: TextStyle(
+      subtitle: TextStyle(
           fontSize: 16.0, fontWeight: FontWeight.w600, color: Colors.black87),
     ),
   );

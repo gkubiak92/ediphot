@@ -28,12 +28,12 @@ class HomeScreen extends StatelessWidget {
                     padding: const EdgeInsets.only(top: 24.0),
                     child: Text(
                       'Ediphot',
-                      style: Theme.of(context).textTheme.subtitle1,
+                      style: Theme.of(context).textTheme.subhead,
                     ),
                   ),
                   Text(
                     'Good morning Grzegorz',
-                    style: Theme.of(context).textTheme.headline1,
+                    style: Theme.of(context).textTheme.headline,
                   ),
                 ],
               ),
