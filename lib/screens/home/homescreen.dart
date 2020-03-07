@@ -1,13 +1,17 @@
+import 'package:ediphot/providers/imagepicker.dart';
 import 'package:ediphot/screens/collage/editphotoscreen.dart';
 import 'package:ediphot/screens/editphoto/editphotoscreen.dart';
 import 'package:ediphot/screens/home/widgets/homecard.dart';
 import 'package:ediphot/screens/magicretouch/editphotoscreen.dart';
-import 'package:ediphot/screens/takephoto/takephotoscreen.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final imagePickerProvider = Provider.of<ImagePickerProvider>(context);
+
     return Scaffold(
       body: Column(
         children: <Widget>[
@@ -54,7 +58,10 @@ class HomeScreen extends StatelessWidget {
                               image:
                                   Image.asset('assets/undraw_take_photo.png'),
                               title: 'Take photo',
-                              routeName: TakePhotoScreen.routeName,
+                              onTap: () => imagePickerProvider.getImageAndEdit(
+                                context,
+                                ImageSource.camera,
+                              ),
                             ),
                             SizedBox(
                               height: 20,
@@ -69,7 +76,10 @@ class HomeScreen extends StatelessWidget {
                             HomeCard(
                               image: Image.asset('assets/undraw_gallery.png'),
                               title: 'Choose photo',
-                              routeName: EditPhotoScreen.routeName,
+                              onTap: () => imagePickerProvider.getImageAndEdit(
+                                context,
+                                ImageSource.gallery,
+                              ),
                             ),
                           ],
                         ),
@@ -83,7 +93,8 @@ class HomeScreen extends StatelessWidget {
                             HomeCard(
                               image: Image.asset('assets/undraw_collage.png'),
                               title: 'Collage',
-                              routeName: CollageScreen.routeName,
+                              onTap: () =>
+                                  Navigator.of(context).pushNamed('/collage'),
                             ),
                             SizedBox(
                               height: 20,
@@ -98,7 +109,8 @@ class HomeScreen extends StatelessWidget {
                             HomeCard(
                               image: Image.asset('assets/undraw_retouch.png'),
                               title: 'Magic retouch',
-                              routeName: MagicRetouchScreen.routeName,
+                              onTap: () => Navigator.of(context)
+                                  .pushNamed('/magicretouch'),
                             ),
                           ],
                         ),

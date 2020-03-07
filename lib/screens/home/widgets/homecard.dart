@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 class HomeCard extends StatelessWidget {
   final String title;
   final Widget image;
-  final String routeName;
+  final Function onTap;
 
-  const HomeCard({Key key, this.title, this.image, this.routeName})
+  const HomeCard({Key key, this.title, this.image, this.onTap})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.of(context).pushNamed(routeName),
+      onTap: onTap,
       child: Card(
         elevation: 8.0,
         shape: RoundedRectangleBorder(
