@@ -1,5 +1,7 @@
-import 'package:camera/camera.dart';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class TakePhotoScreen extends StatefulWidget {
   static const routeName = '/takephoto';
@@ -9,53 +11,27 @@ class TakePhotoScreen extends StatefulWidget {
 }
 
 class _TakePhotoScreenState extends State<TakePhotoScreen> {
-  CameraDescription _camera;
-  CameraController _controller;
-  Future<void> _initializeControllerFuture;
+  File _image;
 
-  Future<void> initCamera() async {
-    final cameras = await availableCameras();
-    _camera = cameras.first;
+  Future getImage() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.camera);
+
+    setState(() {
+      _image = image;
+    });
   }
 
   @override
   void initState() {
-    initCamera();
+    getImage();
     super.initState();
-    print('camera initialized');
-    _controller = CameraController(
-      _camera,
-      ResolutionPreset.medium,
-    );
-
-    _initializeControllerFuture = _controller.initialize();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FutureBuilder<void>(
-        future: _initializeControllerFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            print('camerapreview initialized');
-            return CameraPreview(_controller);
-          } else {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.camera_alt),
-        onPressed: () {},
+      body: Center(
+        child: _image == null ? Text('No image selected') : Image.file(_image),
       ),
     );
   }
