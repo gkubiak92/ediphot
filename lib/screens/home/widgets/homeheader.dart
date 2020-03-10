@@ -20,12 +20,12 @@ class HomeHeader extends StatelessWidget {
               padding: const EdgeInsets.only(top: 24.0),
               child: Text(
                 'Ediphot',
-                style: Theme.of(context).textTheme.subhead,
+                style: Theme.of(context).textTheme.subtitle1,
               ),
             ),
             Text(
               'Good morning Grzegorz',
-              style: Theme.of(context).textTheme.headline,
+              style: Theme.of(context).textTheme.headline1,
             ),
           ],
         ),
