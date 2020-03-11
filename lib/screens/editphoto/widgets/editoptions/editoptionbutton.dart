@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class EditOption extends StatelessWidget {
+class EditOptionButton extends StatelessWidget {
   final IconData icon;
   final String title;
   final Function onTap;
 
-  const EditOption({Key key, this.icon, this.title, this.onTap})
+  const EditOptionButton({Key key, this.icon, this.title, this.onTap})
       : super(key: key);
 
   @override
@@ -17,7 +17,7 @@ class EditOption extends StatelessWidget {
           IconButton(
             icon: Icon(icon),
             iconSize: 36,
-            onPressed: () => onTap(),
+            onPressed: onTap,
           ),
           Text(title),
         ],

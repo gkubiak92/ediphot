@@ -22,8 +22,8 @@ class HomeCard extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
-            width: 140,
-            height: 160,
+            width: 120,
+            height: 140,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[

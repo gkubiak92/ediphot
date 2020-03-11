@@ -1,9 +1,14 @@
+import 'package:ediphot/screens/editphoto/widgets/editoptions/editoptionwidget.dart';
 import 'package:ediphot/screens/editphoto/widgets/filters/filter_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:photofilters/filters/filters.dart';
 import 'package:photofilters/filters/preset_filters.dart';
 
-class FilterTileList extends StatelessWidget {
+class FilterTileList extends EditOptionWidget {
+  final String name;
+
+  FilterTileList(this.name) : super(name: name);
+
   final List<Filter> filters = presetFiltersList;
 
   @override
