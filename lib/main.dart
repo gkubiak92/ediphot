@@ -1,3 +1,4 @@
+import 'package:ediphot/providers/imageEditor.dart';
 import 'package:ediphot/providers/imagepicker.dart';
 import 'package:ediphot/screens/collage/editphotoscreen.dart';
 import 'package:ediphot/screens/editphoto/editphotoscreen.dart';
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<ImagePickerProvider>(
             create: (_) => ImagePickerProvider()),
+        ChangeNotifierProvider<ImageEditor>(create: (_) => ImageEditor()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

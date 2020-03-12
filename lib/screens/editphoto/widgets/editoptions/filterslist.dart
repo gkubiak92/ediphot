@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:photofilters/filters/filters.dart';
 import 'package:photofilters/filters/preset_filters.dart';
 
-class FilterTileList extends EditOptionWidget {
+class FiltersList extends StatelessWidget with EditOptionWidget {
   final String name;
 
-  FilterTileList(this.name) : super(name: name);
+  FiltersList({this.name});
 
   final List<Filter> filters = presetFiltersList;
 

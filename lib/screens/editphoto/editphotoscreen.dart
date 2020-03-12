@@ -1,21 +1,21 @@
 import 'dart:io';
 
-import 'package:ediphot/models/imageeditor.dart';
 import 'package:ediphot/models/editoptionlist.dart';
+import 'package:ediphot/providers/imageEditor.dart';
 import 'package:ediphot/screens/editphoto/widgets/editoptions/adjustwidget.dart';
 import 'package:ediphot/screens/editphoto/widgets/editoptions/editoptionbutton.dart';
-import 'package:ediphot/screens/editphoto/widgets/editoptions/editoptionwidget.dart';
-import 'package:ediphot/screens/editphoto/widgets/filters/filter_tile_list.dart';
+import 'package:ediphot/screens/editphoto/widgets/editoptions/filterslist.dart';
 import 'package:flutter/material.dart';
 import 'package:image/image.dart' as imageLib;
 import 'package:photofilters/photofilters.dart';
 import 'package:photofilters/filters/preset_filters.dart';
+import 'package:provider/provider.dart';
 
 class EditPhotoScreen extends StatefulWidget {
   static const routeName = '/editphoto';
-  List<EditOptionWidget> editWidgetlist = [
-    FilterTileList('filters'),
-    AdjustWidget('adjust'),
+  final List<dynamic> editWidgetlist = [
+    FiltersList(name: 'Filters'),
+    AdjustWidget(name: 'Adjust'),
   ];
 
   @override
@@ -23,7 +23,6 @@ class EditPhotoScreen extends StatefulWidget {
 }
 
 class _EditPhotoScreenState extends State<EditPhotoScreen> {
-  final imageEditor = ImageEditor();
   Image editedImage;
   File imageFile;
   bool _isInit = false;
@@ -31,16 +30,24 @@ class _EditPhotoScreenState extends State<EditPhotoScreen> {
   Widget _selectedEditOption;
 
   void _toggleEditOption(String option) {
-    Widget widgetToShow = widget.editWidgetlist.firstWhere(
-        (element) => element.name.toLowerCase() == option.toLowerCase());
+    Widget widgetToShow =
+        widget.editWidgetlist.firstWhere((element) => element.name == option);
     setState(() {
-      _showEditOption = !_showEditOption;
-      _selectedEditOption = widgetToShow;
+      if (!_showEditOption) {
+        _showEditOption = true;
+        _selectedEditOption = widgetToShow;
+      } else if (_showEditOption && _selectedEditOption != widgetToShow) {
+        _selectedEditOption = widgetToShow;
+      } else {
+        _showEditOption = !_showEditOption;
+        _selectedEditOption = widgetToShow;
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    final imageEditor = Provider.of<ImageEditor>(context);
     List<Widget> options = EditOptionList.options
         .map(
           (option) => EditOptionButton(
@@ -52,17 +59,24 @@ class _EditPhotoScreenState extends State<EditPhotoScreen> {
           ),
         )
         .toList();
-
     if (!_isInit) {
       imageFile = ModalRoute.of(context).settings.arguments;
       imageEditor.setEditImageFromFile(imageFile);
-      editedImage = imageEditor.getImageWidget();
       setState(() {
         _isInit = true;
       });
     }
+    editedImage = imageEditor.getImageWidget();
 
     return Scaffold(
+      appBar: AppBar(
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.save),
+            onPressed: () {},
+          )
+        ],
+      ),
       body: Column(
         children: <Widget>[
           Expanded(
@@ -77,18 +91,18 @@ class _EditPhotoScreenState extends State<EditPhotoScreen> {
               : Container(
                   width: 0,
                 ),
-          RaisedButton(
-            child: Text('adjust'),
-            onPressed: () {
-              imageEditor.adjustImage(
-                brightness: 50,
-                contrast: 120,
-              );
-              setState(() {
-                editedImage = imageEditor.getImageWidget();
-              });
-            },
-          ),
+          // RaisedButton(
+          //   child: Text('adjust'),
+          //   onPressed: () {
+          //     imageEditor.adjustImage(
+          //       brightness: 50,
+          //       contrast: 120,
+          //     );
+          //     setState(() {
+          //       editedImage = imageEditor.getImageWidget();
+          //     });
+          //   },
+          // ),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
