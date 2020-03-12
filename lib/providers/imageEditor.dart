@@ -9,6 +9,7 @@ class ImageEditor with ChangeNotifier {
   imgLib.Image _editedImage;
   String _fileName;
   int _actualBrightness = 0;
+  List<int> _imgBytes;
 
   imgLib.Image get editedImage {
     return _editedImage;
@@ -22,6 +23,10 @@ class ImageEditor with ChangeNotifier {
     return _actualBrightness;
   }
 
+  List<int> get imgBytes {
+    return _imgBytes;
+  }
+
   void setEditImageFromFile(File imageFile) {
     String fileName = basename(imageFile.path);
     _fileName = fileName;
@@ -30,11 +35,11 @@ class ImageEditor with ChangeNotifier {
     imgLib.Image img;
     img = imgLib.decodeImage(decodedImage);
     _editedImage = img;
+    _imgBytes = imgLib.encodeNamedImage(editedImage, fileName);
     notifyListeners();
   }
 
   Widget getImageWidget() {
-    List<int> imgBytes = imgLib.encodeNamedImage(editedImage, fileName);
     return Image.memory(imgBytes);
   }
 
@@ -51,6 +56,8 @@ class ImageEditor with ChangeNotifier {
       _actualBrightness += brightnessToAdjust;
     }
     _editedImage = imgLib.brightness(editedImage, brightnessToAdjust);
+    _imgBytes = imgLib.encodeNamedImage(editedImage, fileName);
+
     print(
         'adjusted Image to brightness: $brightness, actual: $actualBrightness');
     notifyListeners();

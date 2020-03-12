@@ -23,7 +23,6 @@ class EditPhotoScreen extends StatefulWidget {
 }
 
 class _EditPhotoScreenState extends State<EditPhotoScreen> {
-  Image editedImage;
   File imageFile;
   bool _isInit = false;
   bool _showEditOption = false;
@@ -47,7 +46,6 @@ class _EditPhotoScreenState extends State<EditPhotoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final imageEditor = Provider.of<ImageEditor>(context);
     List<Widget> options = EditOptionList.options
         .map(
           (option) => EditOptionButton(
@@ -59,14 +57,15 @@ class _EditPhotoScreenState extends State<EditPhotoScreen> {
           ),
         )
         .toList();
+
     if (!_isInit) {
+      final imageEditor = Provider.of<ImageEditor>(context, listen: false);
       imageFile = ModalRoute.of(context).settings.arguments;
       imageEditor.setEditImageFromFile(imageFile);
       setState(() {
         _isInit = true;
       });
     }
-    editedImage = imageEditor.getImageWidget();
 
     return Scaffold(
       appBar: AppBar(
@@ -80,29 +79,17 @@ class _EditPhotoScreenState extends State<EditPhotoScreen> {
       body: Column(
         children: <Widget>[
           Expanded(
-            child: editedImage == null
-                ? Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : editedImage,
+            child: Consumer<ImageEditor>(
+              builder: (_, imageEditor, child) {
+                return imageEditor.getImageWidget();
+              },
+            ),
           ),
           _showEditOption
               ? _selectedEditOption
               : Container(
                   width: 0,
                 ),
-          // RaisedButton(
-          //   child: Text('adjust'),
-          //   onPressed: () {
-          //     imageEditor.adjustImage(
-          //       brightness: 50,
-          //       contrast: 120,
-          //     );
-          //     setState(() {
-          //       editedImage = imageEditor.getImageWidget();
-          //     });
-          //   },
-          // ),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
@@ -117,30 +104,6 @@ class _EditPhotoScreenState extends State<EditPhotoScreen> {
   final loader = Center(child: CircularProgressIndicator());
   imageLib.Image editedImg;
   List<Filter> filters = presetFiltersList;
-
-  // Widget generateImg(imageLib.Image img, String filename) {
-  //   return FutureBuilder<List<int>>(
-  //     future: compute(
-  //         buildImage, <String, dynamic>{"img": img, "filename": filename}),
-  //     builder: (BuildContext context, AsyncSnapshot<List<int>> snapshot) {
-  //       switch (snapshot.connectionState) {
-  //         case ConnectionState.none:
-  //           return Center(child: CircularProgressIndicator());
-  //         case ConnectionState.active:
-  //         case ConnectionState.waiting:
-  //           return Center(child: CircularProgressIndicator());
-  //         case ConnectionState.done:
-  //           if (snapshot.hasError)
-  //             return Center(child: Text('Error: ${snapshot.error}'));
-  //           return Image.memory(
-  //             snapshot.data,
-  //             fit: BoxFit.contain,
-  //           );
-  //       }
-  //       return null;
-  //     },
-  //   ); // unreachab
-  // }
 }
 
 List<int> buildImage(Map<String, dynamic> params) {
