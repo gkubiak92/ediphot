@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:ediphot/models/editoptionlist.dart';
 import 'package:ediphot/providers/imageEditor.dart';
 import 'package:ediphot/screens/editphoto/widgets/editoptions/adjustwidget.dart';
@@ -93,7 +92,41 @@ class _EditPhotoScreenState extends State<EditPhotoScreen> {
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
-              children: <Widget>[...options],
+              children: <Widget>[
+                ...options,
+                EditOptionButton(
+                  icon: Icons.settings_backup_restore,
+                  title: 'Restore',
+                  onTap: () => showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('Restore defaults'),
+                        content: Text('Are you sure?'),
+                        actions: <Widget>[
+                          FlatButton(
+                            onPressed: () {
+                              Provider.of<ImageEditor>(context, listen: false)
+                                  .restoreDefaults();
+                              Navigator.of(context).pop();
+                              setState(() {
+                                _showEditOption = false;
+                              });
+                            },
+                            child: Text('Yes'),
+                          ),
+                          FlatButton(
+                            onPressed: () => Navigator.of(context).pop(),
+                            child: Text('No'),
+                          ),
+                        ],
+                        elevation: 24.0,
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
           ),
         ],

@@ -6,25 +6,32 @@ import 'package:image/image.dart' as imgLib;
 import 'package:path/path.dart';
 
 class ImageEditor with ChangeNotifier {
-  imgLib.Image _editedImage;
+  imgLib.Image _loadedImage;
+  imgLib.Image _previewImage;
   String _fileName;
-  int _actualBrightness = 0;
-  List<int> _imgBytes;
+  int defaultBrightness = 0;
+  int previewBrightness = 0;
+  List<int> _loadedImgBytes;
+  List<int> _previewImgBytes;
 
-  imgLib.Image get editedImage {
-    return _editedImage;
+  imgLib.Image get loadedImage {
+    return _loadedImage;
+  }
+
+  imgLib.Image get previewImage {
+    return _previewImage;
   }
 
   String get fileName {
     return _fileName;
   }
 
-  int get actualBrightness {
-    return _actualBrightness;
+  List<int> get loadedImgBytes {
+    return _loadedImgBytes;
   }
 
-  List<int> get imgBytes {
-    return _imgBytes;
+  List<int> get previewImgBytes {
+    return _previewImgBytes;
   }
 
   void setEditImageFromFile(File imageFile) {
@@ -32,34 +39,25 @@ class ImageEditor with ChangeNotifier {
     _fileName = fileName;
 
     List<int> decodedImage = imageFile.readAsBytesSync();
-    imgLib.Image img;
-    img = imgLib.decodeImage(decodedImage);
-    _editedImage = img;
-    _imgBytes = imgLib.encodeNamedImage(editedImage, fileName);
+    _loadedImage = imgLib.decodeImage(decodedImage);
+    _previewImgBytes = imgLib.encodeNamedImage(loadedImage, fileName);
     notifyListeners();
   }
 
   Widget getImageWidget() {
-    return Image.memory(imgBytes);
+    return Image.memory(previewImgBytes);
   }
 
   void adjustImage({int brightness = 0}) {
-    int brightnessToAdjust;
-    if (brightness > actualBrightness) {
-      brightnessToAdjust = brightness - actualBrightness;
-      _actualBrightness += brightnessToAdjust;
-    } else if (brightness < actualBrightness) {
-      brightnessToAdjust = -(actualBrightness - brightness);
-      _actualBrightness += brightnessToAdjust;
-    } else {
-      brightnessToAdjust = 0;
-      _actualBrightness += brightnessToAdjust;
-    }
-    _editedImage = imgLib.brightness(editedImage, brightnessToAdjust);
-    _imgBytes = imgLib.encodeNamedImage(editedImage, fileName);
+    _previewImage = imgLib.Image.from(_loadedImage);
+    _previewImage = imgLib.brightness(previewImage, brightness);
+    _previewImgBytes = imgLib.encodeNamedImage(previewImage, fileName);
+    notifyListeners();
+  }
 
-    print(
-        'adjusted Image to brightness: $brightness, actual: $actualBrightness');
+  void restoreDefaults() {
+    _previewImage = imgLib.Image.from(_loadedImage);
+    _previewImgBytes = imgLib.encodeNamedImage(previewImage, fileName);
     notifyListeners();
   }
 }

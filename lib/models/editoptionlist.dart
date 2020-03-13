@@ -10,6 +10,5 @@ class EditOptionList {
     const EditOption(title: 'Sticker', icon: Icons.tag_faces),
     const EditOption(title: 'Text', icon: Icons.text_fields),
     const EditOption(title: 'Frame', icon: Icons.filter_frames),
-    const EditOption(title: 'Restore', icon: Icons.settings_backup_restore),
   ];
 }
