@@ -1,7 +1,8 @@
 import 'dart:io';
 import 'package:ediphot/models/editoptionlist.dart';
 import 'package:ediphot/providers/imageEditor.dart';
-import 'package:ediphot/screens/editphoto/widgets/editoptions/adjustwidget.dart';
+import 'package:ediphot/screens/editphoto/widgets/editoptions/adjust/adjustwidgetlist.dart';
+import 'package:ediphot/screens/editphoto/widgets/editoptions/adjust/brightness.dart';
 import 'package:ediphot/screens/editphoto/widgets/editoptions/editoptionbutton.dart';
 import 'package:ediphot/screens/editphoto/widgets/editoptions/filterslist.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,7 @@ class EditPhotoScreen extends StatefulWidget {
   static const routeName = '/editphoto';
   final List<dynamic> editWidgetlist = [
     FiltersList(name: 'Filters'),
-    AdjustWidget(name: 'Adjust'),
+    AdjustWidgetList(name: 'Adjust'),
   ];
 
   @override
@@ -25,7 +26,16 @@ class _EditPhotoScreenState extends State<EditPhotoScreen> {
   File imageFile;
   bool _isInit = false;
   bool _showEditOption = false;
+  bool _imageLoaded = false;
   Widget _selectedEditOption;
+
+  Future<void> loadAndSetImg(ImageEditor imageEditor, File imageFile) async {
+    await imageEditor.setEditImageFromFile(imageFile);
+    setState(() {
+      _isInit = true;
+      _imageLoaded = true;
+    });
+  }
 
   void _toggleEditOption(String option) {
     Widget widgetToShow =
@@ -45,6 +55,7 @@ class _EditPhotoScreenState extends State<EditPhotoScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print('build EDITPHOTOSCREEN');
     List<Widget> options = EditOptionList.options
         .map(
           (option) => EditOptionButton(
@@ -60,10 +71,7 @@ class _EditPhotoScreenState extends State<EditPhotoScreen> {
     if (!_isInit) {
       final imageEditor = Provider.of<ImageEditor>(context, listen: false);
       imageFile = ModalRoute.of(context).settings.arguments;
-      imageEditor.setEditImageFromFile(imageFile);
-      setState(() {
-        _isInit = true;
-      });
+      loadAndSetImg(imageEditor, imageFile);
     }
 
     return Scaffold(
@@ -78,11 +86,15 @@ class _EditPhotoScreenState extends State<EditPhotoScreen> {
       body: Column(
         children: <Widget>[
           Expanded(
-            child: Consumer<ImageEditor>(
-              builder: (_, imageEditor, child) {
-                return imageEditor.getImageWidget();
-              },
-            ),
+            child: _imageLoaded == false
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : Consumer<ImageEditor>(
+                    builder: (_, imageEditor, child) {
+                      return imageEditor.getImageWidget();
+                    },
+                  ),
           ),
           _showEditOption
               ? _selectedEditOption
