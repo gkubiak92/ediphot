@@ -20,7 +20,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<ImagePickerProvider>(
             create: (_) => ImagePickerProvider()),
-        ChangeNotifierProvider<ImageEditor>(create: (_) => ImageEditor()),
+        ChangeNotifierProvider<ImageEditor>(
+          create: (_) => ImageEditor(),
+        ),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

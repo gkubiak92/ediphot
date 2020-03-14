@@ -15,11 +15,18 @@ class AdjustWidget extends StatefulWidget with EditOptionWidget {
 class _AdjustWidgetState extends State<AdjustWidget> {
   double _brightness = 0;
   double contrast = 0;
+  ImageEditor imageEditor;
+
+  @override
+  void initState() {
+    imageEditor = Provider.of<ImageEditor>(context, listen: false);
+    int brightness = imageEditor.brightness;
+    _brightness = brightness.toDouble();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final imageEditor = Provider.of<ImageEditor>(context, listen: false);
-
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -41,7 +48,6 @@ class _AdjustWidgetState extends State<AdjustWidget> {
               imageEditor.adjustImage(
                 brightness: newValue.toInt(),
               );
-              print('changed brighntess to $newValue');
               imageEditor.adjustImage(brightness: newValue.toInt());
             },
           ),
