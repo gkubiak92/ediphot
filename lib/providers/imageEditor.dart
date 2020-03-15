@@ -16,6 +16,10 @@ class ImageEditor with ChangeNotifier {
   Map<String, dynamic> _adjustValues = {
     'brightness': 1.0,
     'contrast': 1.0,
+    'saturation': 1.0,
+    'gamma': 1.0,
+    'exposure': 0.0,
+    'hue': 0.0,
   };
 
   Map<String, dynamic> get adjustValues {
@@ -67,23 +71,39 @@ class ImageEditor with ChangeNotifier {
   void adjustImage({
     double brightness,
     double contrast,
+    double saturation,
+    double gamma,
+    double exposure,
+    double hue,
   }) {
     _adjustValues['brightness'] = brightness ?? _adjustValues['brightness'];
     _adjustValues['contrast'] = contrast ?? _adjustValues['contrast'];
+    _adjustValues['saturation'] = saturation ?? _adjustValues['saturation'];
+    _adjustValues['gamma'] = gamma ?? _adjustValues['gamma'];
+    _adjustValues['exposure'] = exposure ?? _adjustValues['exposure'];
+    _adjustValues['hue'] = hue ?? _adjustValues['hue'];
     _previewImage = imgLib.Image.from(_loadedImage);
     //_previewImage = imgLib.brightness(previewImage, brightness);
     _previewImage = imgLib.adjustColor(
       previewImage,
       brightness: brightness,
       contrast: contrast,
+      saturation: saturation,
+      gamma: gamma,
+      exposure: exposure,
+      hue: hue,
     );
     _previewImgBytes = imgLib.encodeNamedImage(previewImage, fileName);
     notifyListeners();
   }
 
   void restoreDefaults() {
-    _adjustValues['brightness'] = 1;
-    _adjustValues['contrast'] = 1;
+    _adjustValues['brightness'] = 1.0;
+    _adjustValues['contrast'] = 1.0;
+    _adjustValues['saturation'] = 1.0;
+    _adjustValues['gamma'] = 1.0;
+    _adjustValues['exposure'] = 1.0;
+    _adjustValues['hue'] = 1.0;
     _previewImage = imgLib.Image.from(_loadedImage);
     _previewImgBytes = imgLib.encodeNamedImage(previewImage, fileName);
     notifyListeners();

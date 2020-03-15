@@ -1,5 +1,9 @@
 import 'package:ediphot/screens/editphoto/widgets/editoptions/adjust/brightness.dart';
 import 'package:ediphot/screens/editphoto/widgets/editoptions/adjust/contrast.dart';
+import 'package:ediphot/screens/editphoto/widgets/editoptions/adjust/exposure.dart';
+import 'package:ediphot/screens/editphoto/widgets/editoptions/adjust/gamma.dart';
+import 'package:ediphot/screens/editphoto/widgets/editoptions/adjust/hue.dart';
+import 'package:ediphot/screens/editphoto/widgets/editoptions/adjust/saturation.dart';
 import 'package:ediphot/screens/editphoto/widgets/editoptions/editoptionwidget.dart';
 import 'package:flutter/material.dart';
 
@@ -21,6 +25,18 @@ class _AdjustWidgetListState extends State<AdjustWidgetList>
     Tab(
       icon: Icon(Icons.brightness_6, color: Colors.black),
     ),
+    Tab(
+      icon: Icon(Icons.settings_brightness, color: Colors.black),
+    ),
+    Tab(
+      icon: Icon(Icons.tonality, color: Colors.black),
+    ),
+    Tab(
+      icon: Icon(Icons.exposure, color: Colors.black),
+    ),
+    Tab(
+      icon: Icon(Icons.colorize, color: Colors.black),
+    ),
   ];
 
   @override
@@ -28,6 +44,10 @@ class _AdjustWidgetListState extends State<AdjustWidgetList>
     List<Widget> adjustOptionsView = [
       Brightness(),
       Contrast(),
+      Saturation(),
+      Gamma(),
+      Exposure(),
+      Hue(),
     ];
     final TabController tabController = TabController(
       length: adjustOptions.length,
@@ -50,6 +70,7 @@ class _AdjustWidgetListState extends State<AdjustWidgetList>
         ),
         SingleChildScrollView(
           child: TabBar(
+            indicatorColor: Theme.of(context).primaryColor,
             isScrollable: true,
             controller: tabController,
             tabs: adjustOptions,
